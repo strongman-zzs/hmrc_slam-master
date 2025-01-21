@@ -9,9 +9,18 @@ If you find this project helpful in your research, please consider citing our ar
 **Title**: Enhanced Multi-Robot Collaborative Mapping through Hybrid Object and Scene Recognition  
 **Journal**: *The Visual Computer*  
 
-HMrC-SLAM is implemented on Ubuntu 18.04 with ROS Melodic. The system has been tested using the ZED2 stereo camera, and a dataset has been recorded for usage. Below are instructions for environment setup, installation, and usage of HMrC-SLAM.
+If you use this code, please cite it as:
+
+**Zhensheng Zhou. (2025).**  
+**strongman-zzs/hmrc_slam-master: hmrc_slam (v1.0.0).**  
+**Zenodo. [https://doi.org/10.5281/zenodo.14714407](https://doi.org/10.5281/zenodo.14714407)**
+
+Alternatively, you can use the DOI badge for citation:
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14714407.svg)](https://doi.org/10.5281/zenodo.14714407)
 
 # 1 Environment Setup
+HMrC-SLAM is implemented on Ubuntu 18.04 with ROS Melodic. The system has been tested using the ZED2 stereo camera, and a dataset has been recorded for usage. Below are instructions for environment setup, installation, and usage of HMrC-SLAM.
 
 ## 1.1 Create a Catkin Workspace
 ```
