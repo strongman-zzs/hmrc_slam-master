@@ -1,0 +1,86 @@
+// g2o - General Graph Optimization
+// Copyright (C) 2011 R. Kuemmerle, G. Grisetti, W. Burgard
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are
+// met:
+//
+// * Redistributions of source code must retain the above copyright notice,
+//   this list of conditions and the following disclaimer.
+// * Redistributions in binary form must reproduce the above copyright
+//   notice, this list of conditions and the following disclaimer in the
+//   documentation and/or other materials provided with the distribution.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+// IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+// TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+// PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+// HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+// TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+#ifndef G2O_OPTIMIZATION_ALGORITHM_H
+#define G2O_OPTIMIZATION_ALGORITHM_H
+
+#include <vector>
+#include <utility>
+#include <iosfwd>
+
+#include "../stuff/property.h"
+
+#include "hyper_graph.h"
+#include "sparse_block_matrix.h"
+
+namespace g2o {
+
+  class SparseOptimizer;
+
+    class  OptimizationAlgorithm
+  {
+    public:
+      enum  SolverResult {Terminate=2, OK=1, Fail=-1};
+      OptimizationAlgorithm();
+      virtual ~OptimizationAlgorithm();
+
+            virtual bool init(bool online = false) = 0;
+
+            virtual SolverResult solve(int iteration, bool online = false) = 0;
+
+            virtual bool computeMarginals(SparseBlockMatrix<MatrixXd>& spinv, const std::vector<std::pair<int, int> >& blockIndices) = 0;
+
+            virtual bool updateStructure(const std::vector<HyperGraph::Vertex*>& vset, const HyperGraph::EdgeSet& edges) = 0;
+
+            virtual void printVerbose(std::ostream& os) const {(void) os;};
+
+    public:
+      //! return the optimizer operating on
+      const SparseOptimizer* optimizer() const { return _optimizer;}
+      SparseOptimizer* optimizer() { return _optimizer;}
+
+            void setOptimizer(SparseOptimizer* optimizer);
+
+      //! return the properties of the solver
+      const PropertyMap& properties() const { return _properties;}
+
+            bool updatePropertiesFromString(const std::string& propString);
+      
+            void printProperties(std::ostream& os) const;
+
+    protected:
+      SparseOptimizer* _optimizer;   ///< the optimizer the solver is working on
+      PropertyMap _properties;       ///< the properties of your solver, use this to store the parameters of your solver
+
+    private:
+      // Disable the copy constructor and assignment operator
+      OptimizationAlgorithm(const OptimizationAlgorithm&) { }
+      OptimizationAlgorithm& operator= (const OptimizationAlgorithm&) { return *this; }
+  };
+
+} // end namespace
+
+#endif

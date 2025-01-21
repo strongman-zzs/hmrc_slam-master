@@ -1,0 +1,27 @@
+# Camera parameters for ZED2 stereo camera
+Camera.type: "Stereo"
+Camera.width: 1280                 # 图像宽度（录制数据集分辨率）
+Camera.height: 720                 # 图像高度
+Camera.fps: 30                     # 帧率
+
+# Left camera intrinsic parameters
+Camera.fx: 700.0                   # 左相机焦距 fx
+Camera.fy: 700.0                   # 左相机焦距 fy
+Camera.cx: 640.0                   # 左相机主点横坐标 cx
+Camera.cy: 360.0                   # 左相机主点纵坐标 cy
+
+# Right camera intrinsic parameters
+Camera.fx_right: 700.0             # 右相机焦距 fx
+Camera.fy_right: 700.0             # 右相机焦距 fy
+Camera.cx_right: 640.0             # 右相机主点横坐标 cx
+Camera.cy_right: 360.0             # 右相机主点纵坐标 cy
+
+# Camera baseline
+Camera.baseline: 0.12              # 左右相机基线（单位：米）
+
+# Distortion parameters
+Camera.k1: 0.0
+Camera.k2: 0.0
+Camera.p1: 0.0
+Camera.p2: 0.0
+Camera.k3: 0.0

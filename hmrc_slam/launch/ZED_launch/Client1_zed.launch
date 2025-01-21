@@ -1,0 +1,35 @@
+<?xml version="1.0"?> 
+<launch>
+
+  <arg name="dist" default="0"/>
+  <arg name="cam" default="$(find hmrcslam)/conf/zed2.yaml"/>
+
+  <group ns="hmrcslam">
+
+    <!-- Static TF for odom frame -->
+    <node pkg="tf" type="static_transform_publisher" name="linkC0_broadcaster" 
+          args="-100 300 5 -1.571 0 -2 world odomC0 100" /> 
+
+    <!-- HMRC SLAM Client Node -->
+    <node pkg="hmrcslam" type="hmrcslamClientNode" name="hmrcslamClientNode0" 
+          args="$(find hmrcslam)/conf/ORBvoc.txt $(arg cam)" output="screen">
+
+      <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+      <!-- Agent Specific Params - !!!MUST BE ADJUSTED!!! -->
+
+      <param name="~FrameId" type="string" value="odomC0" />
+      <param name="~ClientId" type="int" value="0" />
+
+      <!-- Camera topic -->
+      <!-- 订阅左图和右图相机的主题 -->
+      <param name="~TopicNameCamSubLeft" type="string" value="/zed2/left1/image_raw" />
+      <param name="~TopicNameCamSubRight" type="string" value="/zed2/right1/image_raw" />
+
+      <!-- Map topic -->
+      <param name="~MapInTopicName" type="string" value="MapOutServer0" unless="$(arg dist)" />
+      <param name="~MapInTopicName" type="string" value="MapOutServer0Disturbed" if="$(arg dist)" /> 
+
+    </node>
+
+  </group>
+</launch>
